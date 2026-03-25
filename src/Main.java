@@ -5,16 +5,23 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
+        GameState state = new GameState();
         Scanner scanner = new Scanner(System.in);
-        String choice = menu(scanner);
-        switch (choice) {
-            case "1":
-                startGame(scanner);
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
+        boolean running = true;
+        while (running) {
+            String choice = menu(scanner);
+            switch (choice) {
+                case "1": //Start Game
+                    startGame(scanner, state);
+                    break;
+                case "2": //soon to be "Show Score"
+                    break;
+                case "3": //Quit Game
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid Input");
+            }
         }
     }
 
@@ -24,16 +31,13 @@ public class Main {
         System.out.println("Quit = 3");
         return scanner.nextLine();
     }
-    public static void startGame(Scanner scanner) {
+    public static void startGame(Scanner scanner, GameState state) {
         boolean repeat = true;
-        boolean yn = false;
-        int score = 0;
-        int streak = 0;
-        int highestStreak = 0;
+        boolean yn;
         Random random = new Random();
-        ArrayList<String> challenges= new ArrayList<String>();
+        ArrayList<String> challenges= new ArrayList<>();
         challenges.add("Drink a glass of water");
-        challenges.add("Do 10 Pushups");
+        challenges.add("Do 10 Push-ups");
         challenges.add("Read 5 pages");
         challenges.add("Meditate for 5 minutes");
         challenges.add("Make your bed");
@@ -47,19 +51,19 @@ public class Main {
                 result = scanner.nextLine();
                 switch (result) {
                     case "yes":
-                        score++;
-                        streak++;
+                        state.score++;
+                        state.streak++;
                         System.out.println("Well done!");
-                        System.out.println("Score = " + score);
-                        System.out.println("Streak = " + streak);
-                        if (streak > highestStreak) highestStreak = streak;
+                        System.out.println("Score = " + state.score);
+                        System.out.println("Streak = " + state.streak);
+                        if (state.streak > state.highestStreak) state.highestStreak = state.streak;
                         done = true;
                         break;
                     case "no":
-                        streak = 0;
+                        state.streak = 0;
                         System.out.println("Oh no, your streak resets :(");
-                        System.out.println("Score = " + score);
-                        System.out.println("Streak = " + streak);
+                        System.out.println("Score = " + state.score);
+                        System.out.println("Streak = " + state.streak);
                         break;
                     default:
                         System.out.println("Please write yes/no");
@@ -74,9 +78,9 @@ public class Main {
                         yn = true;
                         break;
                     case "no":
-                        System.out.println("End score: " + score);
-                        System.out.println("End streak: " + streak);
-                        System.out.println("Highest streak: " + highestStreak);
+                        System.out.println("End score: " + state.score);
+                        System.out.println("End streak: " + state.streak);
+                        System.out.println("Highest streak: " + state.highestStreak);
                         repeat = false;
                         yn = true;
                         break;
